@@ -1,9 +1,15 @@
 package com.kenyajug.encounter.core;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.SQLWarning;
+
 // 1. Open a database connection to sqlite
 // 2. Initialize our database
 //      - Creating the database
@@ -43,6 +49,17 @@ public class EncounterDatabaseManager {
             ex.printStackTrace();
             return false;
         }
+    }
+    public boolean dropDatabase(){
+        try{
+            Files.delete(Path.of(databaseName));
+            var exists = Files.exists(Path.of(databaseName));
+            if (!exists)
+                return true;
+        } catch (IOException e) {
+            System.err.println("Failed to delete file " + databaseName + " cause " + e.getMessage());
+        }
+        return false;
     }
 }
 

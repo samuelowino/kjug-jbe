@@ -10,4 +10,12 @@ class DateTimeUtilsTest {
         var actualString = DateTimeUtils.localDateToString(date);
         assertThat(actualString).isEqualTo(expectedString);
     }
+    @Test
+    void textToLocalDateTest(){
+        var text = "1900-12-24";
+        var expectedDate = LocalDate.of(1900,12,24);
+        var actualDate = DateTimeUtils.stringToLocalDate(text);
+        assertThat(actualDate).isNotNull();
+        assertThat(actualDate.isEqual(expectedDate)).isTrue();
+    }
 }
