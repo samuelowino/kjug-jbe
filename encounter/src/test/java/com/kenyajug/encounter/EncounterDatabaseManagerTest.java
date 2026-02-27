@@ -4,11 +4,9 @@ import com.kenyajug.encounter.core.EncounterDatabaseManager;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
 import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

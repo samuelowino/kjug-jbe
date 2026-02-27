@@ -14,18 +14,14 @@ public class PatientValidatorTest {
         var validName = "Bruce Wayne";
         var invalidDob = (LocalDate) null;
         var validDob = LocalDate.of(1994,5,11);
-
         assertThatThrownBy(() -> new Patient(uuid,invalidName,invalidDob))
                 .as("Name cannot be empty")
                 .isInstanceOf(AssertionError.class);
-
         assertThatThrownBy(() -> new Patient(uuid,validName,invalidDob))
                 .as("Dob cannot be null")
                 .isInstanceOf(AssertionError.class);
-
         assertThatThrownBy(() -> new Patient(invalidUuid,validName,validDob))
                 .as("Dob cannot be null")
                 .isInstanceOf(AssertionError.class);
-
     }
 }
