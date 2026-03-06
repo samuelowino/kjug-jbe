@@ -30,20 +30,20 @@ class PatientRepositoryTest {
     @Test
     @RepeatedTest(3)
     void shouldSavePatientTest() {
-        var isSaved = repository.save(patient);
-        assertThat(isSaved).isTrue();
+        var result = repository.save(patient);
+        assertThat(result).isInstanceOf(Result.Success.class);
     }
     @Test
     void shouldDeleteByIdTest() {
-        var isSaved = repository.save(patient);
-        assertThat(isSaved).isTrue();
-        var isDeleted = repository.deleteById(patient.uuid());
-        assertThat(isDeleted).isTrue();
+        var saveResult = repository.save(patient);
+        assertThat(saveResult).isInstanceOf(Result.Success.class);
+        var result = repository.deleteById(patient.uuid());
+        assertThat(result).isInstanceOf(Result.Success.class);
     }
     @Test
     void shouldFindPatientByUuidTest() {
-        var isSaved = repository.save(patient);
-        assertThat(isSaved).isTrue();
+        var saveResult = repository.save(patient);
+        assertThat(saveResult).isInstanceOf(Result.Success.class);
         Result<Patient> result = repository.findById(patient.uuid());
         assertThat(result instanceof Result.Success<Patient>).isTrue();
         var actualPatient = ((Result.Success<Patient>) result).value();
@@ -54,8 +54,8 @@ class PatientRepositoryTest {
     }
     @Test
     void shouldUpdatePatientTest() {
-        var isSaved = repository.save(patient);
-        assertThat(isSaved).isTrue();
+        var saveResult = repository.save(patient);
+        assertThat(saveResult).isInstanceOf(Result.Success.class);
         var result = repository.findById(patient.uuid());
         assertThat(result instanceof Result.Success<Patient>).isTrue();
         var actualPatient = ((Result.Success<Patient>) result).value();
@@ -66,11 +66,14 @@ class PatientRepositoryTest {
         var newPatientName = "New Patient Name";
         var expectedUpdatedPatient = new Patient(patient.uuid(),newPatientName,newDob);
         var updateResult = repository.update(expectedUpdatedPatient);
-        assertThat(updateResult instanceof Result.Success<Boolean>).isTrue();
-        var isUpdated = ((Result.Success<Boolean>) updateResult).value();
-        assertThat(isUpdated).isTrue();
+        IO.println(updateResult);
+        assertThat(updateResult).isInstanceOf(Result.Success.class);
     }
     @Test
-    void delete() {
+    void shouldDeleteTest() {
+        var saveResult = repository.save(patient);
+        assertThat(saveResult).isInstanceOf(Result.Success.class);
+        var result = repository.delete(patient);
+        assertThat(result).isInstanceOf(Result.Success.class);
     }
 }
