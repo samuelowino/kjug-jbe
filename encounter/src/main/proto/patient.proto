@@ -1,0 +1,18 @@
+syntax = "proto3";
+option java_package = "com.kenyajug.encounter.grpc.patient";
+package patient;
+message Patient {
+  string uuid = 1;
+  string name = 2;
+  string dob = 3;
+}
+message PatientRequest {
+  string uuid = 1;
+}
+message PatientResponse {
+  repeated Patient patients = 1;
+}
+service PatientService {
+  rpc FindPatientByUuid(PatientRequest) returns (PatientResponse);
+}
+
