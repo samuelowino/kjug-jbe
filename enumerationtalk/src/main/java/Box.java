@@ -1,0 +1,3 @@
+public enum Box {
+    RED_BALL, GREEN_BALL, ORANGE_BALL, YELLOW_BALL
+}
