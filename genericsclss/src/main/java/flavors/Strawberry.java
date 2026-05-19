@@ -1,4 +1,2 @@
 package flavors;
-
-public class Strawberry {
-}
+public class Strawberry extends Flavor { }

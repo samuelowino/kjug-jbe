@@ -1,4 +1,2 @@
 package flavors;
-
-public class Pineaple {
-}
+public class Pineapple extends Flavor { }
