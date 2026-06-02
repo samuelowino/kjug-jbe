@@ -1,18 +1,18 @@
 package collectionsinterface;
 import java.util.Collection;
 import java.util.Iterator;
-public class FreezerCollection implements Collection<Object> {
-    private final Flavor[] flavors;
-    public FreezerCollection(Flavor[] flavors) {
-        this.flavors = flavors;
+public class FreezerCollection<T extends Flavor> implements Collection<T> {
+    private final T[] elements;
+    public FreezerCollection(T[] elements) {
+        this.elements = elements;
     }
     @Override
     public int size() {
-        return flavors.length;
+        return elements.length;
     }
     @Override
     public boolean isEmpty() {
-        return flavors.length < 1;
+        return elements.length < 1;
     }
     @Override
     public boolean contains(Object element) {
@@ -21,8 +21,8 @@ public class FreezerCollection implements Collection<Object> {
            return false;
         }
         var isContained = false;
-        for (Flavor candidate : flavors) { // iteration
-            if (candidate.name().contentEquals(flavor.name())) {
+        for (T candidate : elements) { // iteration
+            if (candidate.getName().contentEquals(flavor.getName())) {
                 isContained = true;
                 break;
             }
@@ -30,15 +30,15 @@ public class FreezerCollection implements Collection<Object> {
         return isContained;
     }
     @Override
-    public Iterator<Object> iterator() {
-        throw new UnsupportedOperationException();
+    public Iterator<T> iterator() {
+        return new FreezerIterator<T>(elements);
     }
     @Override
-    public Object[] toArray() {
-        return flavors;
+    public T[] toArray() {
+        return elements;
     }
     @Override
-    public boolean add(Object o) {
+    public boolean add(T o) {
         throw new UnsupportedOperationException();
     }
     @Override
@@ -66,7 +66,7 @@ public class FreezerCollection implements Collection<Object> {
         throw new UnsupportedOperationException();
     }
     @Override
-    public Object[] toArray(Object[] otherFlavors) {
+    public <T1> T1[] toArray(T1[] a) {
         throw new UnsupportedOperationException();
     }
 }
