@@ -2,7 +2,7 @@ package collectionsinterface;
 import java.util.Collection;
 import java.util.Iterator;
 public class FreezerCollection<T extends Flavor> implements Collection<T> {
-    private final T[] elements;
+    private final T[] elements; // fixed size
     public FreezerCollection(T[] elements) {
         this.elements = elements;
     }
