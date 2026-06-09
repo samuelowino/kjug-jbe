@@ -41,11 +41,6 @@
     int value = 11;
     listA.add(index, value); // index 0
 
-    List<Integer> listB = new ArrayList<>();
-    listB.add(80);
-    listB.add(99);
-    listA.addAll(listB);
-
     // retrieval : list.get(index)
      int valueAtIndexZero = listA.get(0);
      int valueAtIndexOne = listA.get(1);
