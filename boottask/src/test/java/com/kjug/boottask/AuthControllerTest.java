@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -71,6 +72,16 @@ public class AuthControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("@.sessionId").exists())
                 .andExpect(jsonPath("@.sessionId").isString())
+                .andReturn();
+    }
+    @Test
+    public void shouldGetMessageTest() throws Exception {
+        mockMvc.perform(get("/api/message/test")
+                .characterEncoding("UTF-8")
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+        )
+                .andDo(print())
+                .andExpect(status().isCreated())
                 .andReturn();
     }
 }

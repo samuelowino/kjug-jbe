@@ -15,7 +15,7 @@ public class AuthService {
     }
     public UserResource registerUser(RegistrationResource registrationDetails){
         var user = registrationDetails.toUser();
-        var entity = userRepository.save(user); // failure
+        var entity = userRepository.save(user);
         return UserResource.fromUser(entity);
     }
     public Optional<SessionResource> login(LoginResource credentials) {
