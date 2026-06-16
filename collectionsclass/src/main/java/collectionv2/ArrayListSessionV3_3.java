@@ -1,5 +1,8 @@
 // Bulk Operations
 // searching : sorting : replacing multiple : bulk removal : bulk addition
+// Comparator interface
+// Functional Interface
+// Iteration
 void main() {
     List<String> fruits = new ArrayList<>();
     fruits.add("apple");
@@ -32,11 +35,25 @@ void main() {
     colors.add("black");
     colors.add("pink");
 
-    List<String> requiredColors = new ArrayList<>();
+    List<String> requiredColors = new ArrayList<>(colors); //addAll
+
     requiredColors.add("blue");
     requiredColors.add("pink");
 
     boolean containsAllRequired = colors.containsAll(requiredColors);
     IO.println("contains all client colors " + containsAllRequired);
+
+    List<Integer> numbers = new ArrayList<>();
+    numbers.add(32);
+    List<? extends Number> ints = numbers; // wildcards ?
+//    ints.add(32); //  : covariance
+    List<? super Integer> ints_b = new ArrayList<>();
+    ints_b.add(32);
+    Integer vala = (Integer) ints_b.get(0);
+
+    Integer val = 32;
+    numbers.add(val);
+
+    IO.println("");
 
 }
