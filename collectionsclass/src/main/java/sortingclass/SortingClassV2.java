@@ -8,7 +8,8 @@ void main() {
     IO.println("after sorting...");
     IO.println(numbers);
 
-    record Ticket(int tickerNo,String customerName,String service) implements Comparable<Ticket> {
+    record Ticket(int tickerNo,String customerName,String service)
+            implements Comparable<Ticket> {
         @Override
         public int compareTo(Ticket otherTicket) {
 //            return Integer.compare(otherTicket.tickerNo(),this.tickerNo());
