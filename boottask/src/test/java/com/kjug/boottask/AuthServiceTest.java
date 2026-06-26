@@ -3,8 +3,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import static com.kjug.boottask.Resources.RegistrationResource;
 import static com.kjug.boottask.Resources.LoginResource;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,13 +40,19 @@ public class AuthServiceTest {
     @Test
     public void shouldLoginUserTest() {
         var loginRes = new LoginResource("john","3234353pass");
+        Mockito.when(userRepository.findByUsername(any(String.class)))
+                .thenReturn(Optional.of( new User("john",loginRes.password(),"john@gmail.com")));
         var sessionRes = authService.login(loginRes);
-        assertThat(sessionRes).isNotNull();
-        //assertThat(sessionRes.sessionId()).isNotEmpty();
+        assertThat(sessionRes).isPresent();
+        assertThat(sessionRes.get().sessionId()).isNotEmpty();
+        assertThat(sessionRes.get().sessionId()).isNotBlank();
     }
     @Test
     public void shouldFailLoginIfUserDoesNotExistTest() {
         var loginRes = new LoginResource("john","3234353pass");
+        Mockito.when(userRepository.findByUsername(any(String.class)))
+                .thenReturn(Optional.empty());
         var sessionRes = authService.login(loginRes);
+        assertThat(sessionRes).isEmpty();
     }
 }

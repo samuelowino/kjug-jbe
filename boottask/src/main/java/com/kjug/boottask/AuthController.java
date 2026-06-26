@@ -1,66 +1,31 @@
 package com.kjug.boottask;
+import jakarta.validation.GroupSequence;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import static com.kjug.boottask.Resources.UserResource;
 import static com.kjug.boottask.Resources.RegistrationResource;
 import static com.kjug.boottask.Resources.SessionResource;
 import static com.kjug.boottask.Resources.LoginResource;
+import static com.kjug.boottask.Resources.LogoutResource;
+@Log
+@Validated
 @RestController
 @RequestMapping("/api")
 public class AuthController {
     @Autowired
     private AuthService authService;
     @PostMapping("/register")
-    // Http protocol
-    // Client : browser
-    // Server : google servers
-    // client sends Http request
-    // server receives http request
-    // server return a http response
-
-
-    // GET /hotels/location
-    // RESPONSE : list of hotels
-    // ResponseEntity is a representation of the http response
-
-    // 500 : internal server error
-    // 404 : not found
-    // message : an error occurred
-    // data : list of hotels
-
-    // HttpResponse -> ResponseEntity
-
-    // OOP
-    // Functional Programming : lambda : functional interface
-    // Imperative : procedural : console
-    // Aspect Oriented Programming AOP
-    // inject operations in non-specific code
-
-    // function : audit()
-    // - log the account being audited : logfile : before audit()
-    // - log the audit progress by timestamp : during audit()
-    // - log when the audit was completed : timestamp : after audit()
-    // - ip of the node that executed the audit : after audit()
-
-    public void saleaudit() {
-        // log : starting audi at timestamp
-        // log : starting sales audit timestamp
-        // log : finished auditing : timestamp
-    }
-    public void procurementaudit() {
-        // log : starting audi at timestamp
-        // log : starting sales audit timestamp
-        // log : finished auditing : timestamp
-    }
-
     public ResponseEntity<UserResource> registerUser(
             @RequestBody RegistrationResource registrationDetails
     ){
@@ -90,8 +55,42 @@ public class AuthController {
     }
     @PostMapping("/login")
     public ResponseEntity<SessionResource> login(
-            @RequestBody LoginResource credentials
+            @RequestBody @Valid  LoginResource credentials
             ){
-        return null;
+        var sessionId = authService.login(credentials);
+        if (sessionId.isEmpty())
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        else
+            return ResponseEntity.ok(sessionId.get());
+    }
+    @PostMapping("/logout")
+    public ResponseEntity<LogoutResource> logout(
+            @RequestHeader(value = "Authorization")
+            @NotBlank(message = "session id must not be blank")
+            @NotNull(message = "session id must not be null")
+            String sessionId
+    ) {
+        log.info("session id is " + sessionId);
+        boolean isLoggedOut = authService.logout(sessionId);
+        if (isLoggedOut)
+            return ResponseEntity.ok(new LogoutResource("Logged out"));
+        else return new ResponseEntity<>(new LogoutResource("Log out failed"),
+                HttpStatus.UNAUTHORIZED);
+    }
+    @PasswordMatch(groups = SecondPhase.class) // Runs ONLY in the second phase
+    @GroupSequence({FirstPhase.class, SecondPhase.class, UserRegisterDto.class}) // Order of operations
+    public class UserRegisterDto {
+
+        @NotBlank(groups = FirstPhase.class) // Runs in the first phase
+        private String email;
+
+        @NotBlank(groups = FirstPhase.class)
+        @Size(min = 8, message = "Password must be at least 8 characters", groups = FirstPhase.class)
+        private String password;
+
+        @NotBlank(groups = FirstPhase.class)
+        private String confirmPassword;
+
+        // Getters and Setters...
     }
 }

@@ -2,6 +2,7 @@ package com.kjug.boottask;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.kjug.boottask.Resources.RegistrationResource;
 import static com.kjug.boottask.Resources.UserResource;
@@ -19,11 +20,14 @@ public class AuthService {
         return UserResource.fromUser(entity);
     }
     public Optional<SessionResource> login(LoginResource credentials) {
-        // check if user exists
-        // compare passwords : unauthorized | authorized
-        // repository.existsBy
-        var exists = userRepository.existsByUsername(credentials.username());
-        if (!exists) return Optional.empty();
-        return null;
+        var user = userRepository.findByUsername(credentials.username());
+        if (user.isEmpty()) return Optional.empty();
+        if (!user.get().getPassword()
+                .contentEquals(credentials.password())) return Optional.empty();
+        var sessionId = UUID.randomUUID().toString();
+        return Optional.of( new SessionResource(sessionId));
+    }
+    public boolean logout(String sessionId) {
+        return true;
     }
 }
