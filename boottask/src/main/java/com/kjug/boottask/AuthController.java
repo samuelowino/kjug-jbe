@@ -1,9 +1,7 @@
 package com.kjug.boottask;
-import jakarta.validation.GroupSequence;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,21 +74,5 @@ public class AuthController {
             return ResponseEntity.ok(new LogoutResource("Logged out"));
         else return new ResponseEntity<>(new LogoutResource("Log out failed"),
                 HttpStatus.UNAUTHORIZED);
-    }
-    @PasswordMatch(groups = SecondPhase.class) // Runs ONLY in the second phase
-    @GroupSequence({FirstPhase.class, SecondPhase.class, UserRegisterDto.class}) // Order of operations
-    public class UserRegisterDto {
-
-        @NotBlank(groups = FirstPhase.class) // Runs in the first phase
-        private String email;
-
-        @NotBlank(groups = FirstPhase.class)
-        @Size(min = 8, message = "Password must be at least 8 characters", groups = FirstPhase.class)
-        private String password;
-
-        @NotBlank(groups = FirstPhase.class)
-        private String confirmPassword;
-
-        // Getters and Setters...
     }
 }
