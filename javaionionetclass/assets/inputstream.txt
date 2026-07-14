@@ -1,0 +1,79 @@
+)))))))))))))))))))))))))
+) InputStream            )
+)))))))))))))))))))))))))
+
+Reading Methods
+----------------
+int read()
+    Reads next byte of data (returns -1 at end of stream)
+
+int read(byte[] b)
+    Reads bytes into array, returns count read
+
+int read(byte[] b, int off, int len)
+    Reads up to len bytes into array from offset
+
+long skip(long n)
+    Skips and discards n bytes
+
+int available()
+    Returns estimated number of bytes that can be read
+
+void close()
+    Closes stream and releases resources
+
+Mark/Reset Methods
+------------------
+void mark(int readlimit)
+    Marks current position (up to readlimit bytes)
+
+void reset()
+    Resets to last marked position
+
+boolean markSupported()
+    Checks if mark/reset are supported
+
+
+)))))))))))))))))))))))))
+) FileInputStream        )
+)))))))))))))))))))))))))
+
+Constructors
+------------
+FileInputStream(String name)
+    Creates file input stream from file path
+
+FileInputStream(File file)
+    Creates file input stream from File object
+
+FileInputStream(FileDescriptor fdObj)
+    Creates file input stream from file descriptor
+
+Reading Methods
+----------------
+int read()                          // Overrides InputStream.read()
+    Reads next byte from file
+
+int read(byte[] b)                  // Overrides InputStream.read(byte[])
+    Reads bytes from file into array
+
+int read(byte[] b, int off, int len) // Overrides InputStream.read(byte[],int,int)
+    Reads up to len bytes from file into array at offset
+
+long skip(long n)                   // Overrides InputStream.skip()
+    Skips n bytes in file
+
+int available()                     // Overrides InputStream.available()
+    Returns remaining bytes in file
+
+Other Methods
+--------------
+FileChannel getChannel()
+    Returns FileChannel for advanced NIO operations
+
+FileDescriptor getFD()
+    Returns file descriptor
+
+void close()                        // Overrides InputStream.close()
+    Closes the file and releases resources
+

@@ -1,0 +1,47 @@
+)))))))))))))))))))))))))
+) FileOutputStream       )
+)))))))))))))))))))))))))
+
+Constructors
+------------
+FileOutputStream(String name)
+    Creates file output stream to write to file with specified name
+
+FileOutputStream(String name, boolean append)
+    Creates file output stream with append mode (true = append, false = overwrite)
+
+FileOutputStream(File file)
+    Creates file output stream to write to specified File object
+
+FileOutputStream(File file, boolean append)
+    Creates file output stream with append mode for specified File
+
+FileOutputStream(FileDescriptor fdObj)
+    Creates file output stream using existing file descriptor
+
+
+Writing Methods
+---------------
+void write(int b)
+    Writes the specified byte to the file
+
+void write(byte[] b)
+    Writes all bytes from the byte array to the file
+
+void write(byte[] b, int off, int len)
+    Writes len bytes from array starting at offset off
+
+void flush()
+    Flushes the stream (ensures all buffered data is written)
+
+
+Other Methods
+--------------
+FileChannel getChannel()
+    Returns the unique FileChannel object associated with this stream
+
+FileDescriptor getFD()
+    Returns the file descriptor associated with this stream
+
+void close()
+    Closes the file output stream and releases system resources
